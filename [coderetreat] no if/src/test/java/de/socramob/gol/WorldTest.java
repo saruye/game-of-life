@@ -28,7 +28,7 @@ public class WorldTest {
 		World world = new World();
 		world.addCell(new Cell(),new Dimension(1, 1));
 		world.addCell(new Cell(),new Dimension(1, 2));
-		assertEquals(1, world.getLivingNeigbourCount(new Dimension(1, 1)));
+		assertEquals(1, world.countLivingNeigbours(new Dimension(1, 1)));
 		
 		
 	}
@@ -36,7 +36,7 @@ public class WorldTest {
 	public void getNumberOfLivingNeigbours_shouldBeZero() throws Exception {
 		World world = new World();
 		world.addCell(new Cell(),new Dimension(1, 2));
-		assertEquals(0, world.getLivingNeigbourCount(new Dimension(1, 2)));
+		assertEquals(0, world.countLivingNeigbours(new Dimension(1, 2)));
 		
 		
 	}
@@ -47,12 +47,12 @@ public class WorldTest {
 		Cell deadCell = new Cell();
 		deadCell.die();
 		world.addCell(deadCell,new Dimension(1, 2));
-		assertEquals(0, world.getLivingNeigbourCount(new Dimension(1, 1)));
+		assertEquals(0, world.countLivingNeigbours(new Dimension(1, 1)));
 		
 	}
 	
 	@Test
-	public void testGenerateNextGeneration_shouldHaveNooneAlive() throws Exception {
+	public void testGenerateNextGeneration_shouldHaveNoneAlive() throws Exception {
 		World world = new World();
 		Cell cell = new Cell();
 		world.addCell(cell, new Dimension(1,2));

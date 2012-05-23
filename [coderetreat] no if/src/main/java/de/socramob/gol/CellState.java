@@ -1,33 +1,71 @@
 package de.socramob.gol;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 enum CellState {
-	DEAD(false, Arrays.asList(3),0), ALIVE(true, Arrays.asList(2, 3),1);
+	DEAD() {
+		@Override
+		CellState getNextGeneration(Integer countOfLivingNeighbors) {
+			return deadRulesMap.get(countOfLivingNeighbors);
+		}
 
-	boolean alive;
-	List<Integer> listWithGoodNeigbourCount;
-	int neigbourCountValue;
+		@Override
+		boolean isAlive() {
+			return false;
+		}
 
-	private CellState(boolean alive, List<Integer> listWithGoodNeigbourCount, int neigbourCountValue) {
+		@Override
+		int getAliveValue() {
+			return 0;
+		}
 
-		this.listWithGoodNeigbourCount = listWithGoodNeigbourCount;
-		this.alive = alive;
-		this.neigbourCountValue=neigbourCountValue;
+	},
+	ALIVE() {
+		@Override
+		CellState getNextGeneration(Integer countOfLivingNeighbors) {
+			return aliveRulesMap.get(countOfLivingNeighbors);
+		}
+
+		@Override
+		boolean isAlive() {
+			return true;
+		}
+
+		@Override
+		int getAliveValue() {
+			return 1;
+		}
+
+	};
+
+	private static Map<Integer, CellState> aliveRulesMap = new HashMap<Integer, CellState>();
+	private static Map<Integer, CellState> deadRulesMap = new HashMap<Integer, CellState>();
+	static {
+		aliveRulesMap.put(0, DEAD);
+		aliveRulesMap.put(1, DEAD);
+		aliveRulesMap.put(2, ALIVE);
+		aliveRulesMap.put(3, ALIVE);
+		aliveRulesMap.put(4, DEAD);
+		aliveRulesMap.put(5, DEAD);
+		aliveRulesMap.put(6, DEAD);
+		aliveRulesMap.put(7, DEAD);
+		aliveRulesMap.put(8, DEAD);
+
+		deadRulesMap.put(0, DEAD);
+		deadRulesMap.put(1, DEAD);
+		deadRulesMap.put(2, DEAD);
+		deadRulesMap.put(3, ALIVE);
+		deadRulesMap.put(4, DEAD);
+		deadRulesMap.put(5, DEAD);
+		deadRulesMap.put(6, DEAD);
+		deadRulesMap.put(7, DEAD);
+		deadRulesMap.put(8, DEAD);
 	}
 
-	public boolean isAlive() {
-		return alive;
-	}
+	abstract CellState getNextGeneration(Integer countOfLivingNeighbors);
 
-	public List<Integer> getAliveValues() {
-		return listWithGoodNeigbourCount;
-	}
+	abstract boolean isAlive();
 
-	public int getAliveValue() {
-		return neigbourCountValue;
-	}
-	
-
+	abstract int getAliveValue();
 }
