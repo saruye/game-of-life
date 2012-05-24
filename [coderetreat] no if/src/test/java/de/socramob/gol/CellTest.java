@@ -33,7 +33,7 @@ public class CellTest {
 	@Test
 	public void testLiving_StaysAliveWithTwoLivingNeighbors()
 		throws Exception {
-		this.cell.incNeigbourCountBy(2);
+		this.cell.setLivingNeigbourQuantity(2);
 		this.cell.nextGeneration();
 		assertTrue(this.cell.isAlive());
 	}
@@ -41,7 +41,7 @@ public class CellTest {
 	@Test
 	public void testLivingDiesWithOneNeigbour()
 		throws Exception {
-		this.cell.incNeigbourCountBy(1);
+		this.cell.setLivingNeigbourQuantity(1);
 		this.cell.nextGeneration();
 		assertFalse(this.cell.isAlive());
 	}
@@ -49,7 +49,7 @@ public class CellTest {
 	@Test
 	public void testLiving_DiesWithFourNeigbour()
 		throws Exception {
-		this.cell.incNeigbourCountBy(4);
+		this.cell.setLivingNeigbourQuantity(4);
 		this.cell.nextGeneration();
 		assertFalse(this.cell.isAlive());
 
@@ -59,7 +59,7 @@ public class CellTest {
 	public void testDead_RevivesWith3Neigbour()
 		throws Exception {
 		this.cell.die();
-		this.cell.incNeigbourCountBy(3);
+		this.cell.setLivingNeigbourQuantity(3);
 		this.cell.nextGeneration();
 		assertTrue(this.cell.isAlive());
 
@@ -69,7 +69,7 @@ public class CellTest {
 	public void testDead_StaysDeadWith2Neigbour()
 		throws Exception {
 		this.cell.die();
-		this.cell.incNeigbourCountBy(2);
+		this.cell.setLivingNeigbourQuantity(2);
 		this.cell.nextGeneration();
 		assertFalse(this.cell.isAlive());
 
@@ -79,7 +79,7 @@ public class CellTest {
 	public void testDead_StaysDeadWith4Neigbour()
 		throws Exception {
 		this.cell.die();
-		this.cell.incNeigbourCountBy(4);
+		this.cell.setLivingNeigbourQuantity(4);
 		this.cell.nextGeneration();
 		assertFalse(this.cell.isAlive());
 

@@ -22,11 +22,11 @@ public class Cell {
 		return this.state.getAliveValue();
 	}
 
-	public void incNeigbourCountBy(int i) {
-		this.neigbourCount += i;
+	public void setLivingNeigbourQuantity(int i) {
+		this.neigbourCount = i;
 	}
 
-	public void resetNeighbourCount() {
+	public void resetNeighbourQuantity() {
 		this.neigbourCount = 0;
 	}
 

@@ -3,10 +3,9 @@ package de.socramob.gol;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DefaultMap<K, V>
-	extends HashMap<K, V> {
+public class DefaultMap<K, V> extends HashMap<K, V> {
 
-	V defaultValue;
+	private V defaultValue;
 
 	public DefaultMap(V defaultValue) {
 		super();

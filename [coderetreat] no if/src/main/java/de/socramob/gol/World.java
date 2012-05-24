@@ -1,48 +1,47 @@
 package de.socramob.gol;
 
-import java.awt.Dimension;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Map;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
 public class World {
 
-	Map<Dimension, Cell> grid = new HashMap<Dimension, Cell>();
+	Grid grid = new Grid();
 
-	public void addCell(Cell cell, Dimension dimension) {
-		this.grid.put(dimension, cell);
+	public void addCell(Cell cell, WorldDimension dimension) {
+		this.grid.putCellToDimension(dimension, cell);
 
 	}
 
-	private LinkedList<Dimension> generateNeigbours(Dimension dimension) {
-		LinkedList<Dimension> neigbours = new LinkedList<Dimension>();
-		neigbours.add(new Dimension(dimension.width - 1, dimension.height - 1));
-		neigbours.add(new Dimension(dimension.width - 1, dimension.height + 1));
-		neigbours.add(new Dimension(dimension.width - 1, dimension.height));
-		neigbours.add(new Dimension(dimension.width + 1, dimension.height - 1));
-		neigbours.add(new Dimension(dimension.width + 1, dimension.height + 1));
-		neigbours.add(new Dimension(dimension.width + 1, dimension.height));
-		neigbours.add(new Dimension(dimension.width, dimension.height - 1));
-		neigbours.add(new Dimension(dimension.width, dimension.height + 1));
+	private List<WorldDimension> generateNeigbours(WorldDimension dimension) {
+		List<WorldDimension> neigbours = new LinkedList<WorldDimension>();
+
+		neigbours.add(WorldDimension.createSouthWest(dimension));
+		neigbours.add(WorldDimension.createNorthWest(dimension));
+		neigbours.add(WorldDimension.createWest(dimension));
+		neigbours.add(WorldDimension.createNorthEast(dimension));
+		neigbours.add(WorldDimension.createSouthEast(dimension));
+		neigbours.add(WorldDimension.createEast(dimension));
+		neigbours.add(WorldDimension.createNorth(dimension));
+		neigbours.add(WorldDimension.createSouth(dimension));
 
 		return neigbours;
 	}
 
 	public void nextGeneration() {
 
-		for (Entry<Dimension, Cell> dimension : this.grid.entrySet()) {
-			dimension.getValue().incNeigbourCountBy(countLivingNeigbours(dimension.getKey()));
-		}
-		for (Entry<Dimension, Cell> dimension : this.grid.entrySet()) {
-			dimension.getValue().nextGeneration();
+		setLivingNeighbourQuantityForEachField();
+
+		for (Entry<WorldDimension, Cell> gridField : this.grid.getFields()) {
+			Cell cellOfField = gridField.getValue();
+			cellOfField.nextGeneration();
 		}
 
 	}
 
-	public int countLivingNeigbours(Dimension dimension) {
+	public int countLivingNeigbours(WorldDimension dimension) {
 		Set<Cell> neigbourCells = determineNeighbourCells(dimension);
 
 		int neigbourCount = 0;
@@ -55,7 +54,7 @@ public class World {
 
 	public int getLivingCellCount() {
 		int livingCellCount = 0;
-		for (Entry<Dimension, Cell> currentDimension : this.grid.entrySet()) {
+		for (Entry<WorldDimension, Cell> currentDimension : this.grid.getFields()) {
 			Cell currentCell = currentDimension.getValue();
 			livingCellCount += currentCell.getAliveValue();
 		}
@@ -63,16 +62,24 @@ public class World {
 
 	}
 
-	private Set<Cell> determineNeighbourCells(Dimension dimension) {
+	private Set<Cell> determineNeighbourCells(WorldDimension dimension) {
 		Set<Cell> neigbourCells = new HashSet<Cell>();
 
-		for (Dimension neigbourSpot : generateNeigbours(dimension)) {
-			neigbourCells.add(this.grid.get(neigbourSpot));
+		for (WorldDimension neigbourSpot : generateNeigbours(dimension)) {
+			neigbourCells.add(this.grid.getCell(neigbourSpot));
 		}
 
 		neigbourCells.remove(null);
 
 		return neigbourCells;
+	}
+
+	private void setLivingNeighbourQuantityForEachField() {
+		for (Entry<WorldDimension, Cell> gridField : this.grid.getFields()) {
+			Cell cellOfField = gridField.getValue();
+			WorldDimension fieldDimension = gridField.getKey();
+			cellOfField.setLivingNeigbourQuantity(countLivingNeigbours(fieldDimension));
+		}
 	}
 
 }
