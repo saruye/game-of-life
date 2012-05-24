@@ -2,7 +2,8 @@ package de.socramob.gol;
 
 import java.awt.Dimension;
 
-public class WorldDimension extends Dimension {
+public class WorldDimension
+	extends Dimension {
 
 	private static final long serialVersionUID = -5358293046121047701L;
 
@@ -57,4 +58,15 @@ public class WorldDimension extends Dimension {
 	public static WorldDimension createWest(WorldDimension origin) {
 		return new WorldDimension(origin.stepWest(), origin.height);
 	}
+
+	// static abstract class DimensionCommand {
+	//
+	// public static void run(Cell cell, Map<WorldDimension, Cell> grid, WorldDimension currentDimension){
+	// Map<Cell, Command> actionMap = new DefaultMap<Cell, World.Command>(Command.getIncNeigbourCountCommand());
+	// actionMap.put(null, Command.getEmptyCommand());
+	//
+	// }
+	//
+	// }
+
 }
