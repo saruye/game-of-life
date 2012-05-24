@@ -1,6 +1,5 @@
 package de.socramob.gol;
 
-import java.util.HashMap;
 import java.util.Map;
 
 enum CellState {
@@ -39,28 +38,15 @@ enum CellState {
 
 	};
 
-	private static Map<Integer, CellState> aliveRulesMap = new HashMap<Integer, CellState>();
-	private static Map<Integer, CellState> deadRulesMap = new HashMap<Integer, CellState>();
+	private static Map<Integer, CellState> aliveRulesMap = new DefaultMap<Integer, CellState>(DEAD);
+
+	private static Map<Integer, CellState> deadRulesMap = new DefaultMap<Integer, CellState>(DEAD);
 	static {
-		aliveRulesMap.put(0, DEAD);
-		aliveRulesMap.put(1, DEAD);
+
 		aliveRulesMap.put(2, ALIVE);
 		aliveRulesMap.put(3, ALIVE);
-		aliveRulesMap.put(4, DEAD);
-		aliveRulesMap.put(5, DEAD);
-		aliveRulesMap.put(6, DEAD);
-		aliveRulesMap.put(7, DEAD);
-		aliveRulesMap.put(8, DEAD);
-
-		deadRulesMap.put(0, DEAD);
-		deadRulesMap.put(1, DEAD);
-		deadRulesMap.put(2, DEAD);
 		deadRulesMap.put(3, ALIVE);
-		deadRulesMap.put(4, DEAD);
-		deadRulesMap.put(5, DEAD);
-		deadRulesMap.put(6, DEAD);
-		deadRulesMap.put(7, DEAD);
-		deadRulesMap.put(8, DEAD);
+
 	}
 
 	abstract CellState getNextGeneration(Integer countOfLivingNeighbors);

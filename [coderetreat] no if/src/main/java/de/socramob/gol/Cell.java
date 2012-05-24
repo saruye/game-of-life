@@ -4,20 +4,30 @@ public class Cell {
 
 	private CellState state = CellState.ALIVE;
 
+	private int neigbourCount = 0;
+
 	public boolean isAlive() {
-		return state.isAlive();
+		return this.state.isAlive();
 	}
 
 	public void die() {
-		state = CellState.DEAD;
+		this.state = CellState.DEAD;
 	}
 
-	public void nextGeneration(int countLivingNeighbors) {
-		state = state.getNextGeneration(countLivingNeighbors);
+	public void nextGeneration() {
+		this.state = this.state.getNextGeneration(this.neigbourCount);
 	}
 
 	public int getAliveValue() {
-		return state.getAliveValue();
+		return this.state.getAliveValue();
+	}
+
+	public void incNeigbourCountBy(int i) {
+		this.neigbourCount += i;
+	}
+
+	public void resetNeighbourCount() {
+		this.neigbourCount = 0;
 	}
 
 }

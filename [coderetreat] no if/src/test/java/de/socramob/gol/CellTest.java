@@ -1,4 +1,5 @@
 package de.socramob.gol;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -9,66 +10,85 @@ import org.junit.Test;
 public class CellTest {
 
 	private Cell cell;
+
 	@Before
-	public void setUp(){
-		cell = new Cell();
+	public void setUp() {
+		this.cell = new Cell();
 
 	}
 
 	@Test
-	public void createCell_DefaultCellShouldBeAlive() throws Exception {
-		assertTrue(cell.isAlive());
+	public void createCell_DefaultCellShouldBeAlive()
+		throws Exception {
+		assertTrue(this.cell.isAlive());
 	}
 
 	@Test
-	public void cell_could_die() throws Exception {
-		cell.die();
-		assertFalse(cell.isAlive());
+	public void cell_could_die()
+		throws Exception {
+		this.cell.die();
+		assertFalse(this.cell.isAlive());
 	}
 
 	@Test
-	public void testLiving_StaysAliveWithTwoLivingNeighbors() throws Exception {
-		cell.nextGeneration(2);
-		assertTrue(cell.isAlive());
+	public void testLiving_StaysAliveWithTwoLivingNeighbors()
+		throws Exception {
+		this.cell.incNeigbourCountBy(2);
+		this.cell.nextGeneration();
+		assertTrue(this.cell.isAlive());
 	}
 
 	@Test
-	public void testLivingDiesWithOneNeigbour() throws Exception {
-		cell.nextGeneration(1);
-		assertFalse(cell.isAlive());
+	public void testLivingDiesWithOneNeigbour()
+		throws Exception {
+		this.cell.incNeigbourCountBy(1);
+		this.cell.nextGeneration();
+		assertFalse(this.cell.isAlive());
 	}
 
 	@Test
-	public void testLiving_DiesWithFourNeigbour() throws Exception {
-		cell.nextGeneration(4);
-		assertFalse(cell.isAlive());
-
-	}
-	@Test
-	public void testDead_RevivesWith3Neigbour() throws Exception {
-		cell.die();
-		cell.nextGeneration(3);
-		assertTrue(cell.isAlive());
-
-	}
-	@Test
-	public void testDead_StaysDeadWith2Neigbour() throws Exception {
-		cell.die();
-		cell.nextGeneration(2);
-		assertFalse(cell.isAlive());
-
-	}
-	@Test
-	public void testDead_StaysDeadWith4Neigbour() throws Exception {
-		cell.die();
-		cell.nextGeneration(4);
-		assertFalse(cell.isAlive());
+	public void testLiving_DiesWithFourNeigbour()
+		throws Exception {
+		this.cell.incNeigbourCountBy(4);
+		this.cell.nextGeneration();
+		assertFalse(this.cell.isAlive());
 
 	}
 
 	@Test
-	public void testCell_GetAliveValue() throws Exception {
-		assertEquals(1, cell.getAliveValue());
+	public void testDead_RevivesWith3Neigbour()
+		throws Exception {
+		this.cell.die();
+		this.cell.incNeigbourCountBy(3);
+		this.cell.nextGeneration();
+		assertTrue(this.cell.isAlive());
+
+	}
+
+	@Test
+	public void testDead_StaysDeadWith2Neigbour()
+		throws Exception {
+		this.cell.die();
+		this.cell.incNeigbourCountBy(2);
+		this.cell.nextGeneration();
+		assertFalse(this.cell.isAlive());
+
+	}
+
+	@Test
+	public void testDead_StaysDeadWith4Neigbour()
+		throws Exception {
+		this.cell.die();
+		this.cell.incNeigbourCountBy(4);
+		this.cell.nextGeneration();
+		assertFalse(this.cell.isAlive());
+
+	}
+
+	@Test
+	public void testCell_GetAliveValue()
+		throws Exception {
+		assertEquals(1, this.cell.getAliveValue());
 	}
 
 }
