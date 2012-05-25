@@ -1,19 +1,25 @@
 package de.socramob.gol;
 
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Map.Entry;
 
 public class World {
 
 	Grid grid;
 
-	Map<Cell, Command> actionMap;
+	final DefaultMap<WorldDimension, Command> recursionActionMap = new DefaultMap<WorldDimension, Command>(null);
 
 	public World() {
 		this.grid = new Grid();
-		this.actionMap = new DefaultMap<Cell, Command>(Command.getIncNeigbourCountCommand());
-		this.actionMap.put(null, Command.getEmptyCommand());
+		this.recursionActionMap.setDefaultValue(new Command() {
+			@Override
+			public void run(Cell cell, Cell neigbourCell, final LinkedList<WorldDimension> neigbourList) {
+				cell.incNeighbourCount(neigbourCell.getAliveValue());
+				WorldDimension neigbourDimension = neigbourList.poll();
+				World.this.recursionActionMap.get(neigbourDimension).run(cell, World.this.grid.getCell(neigbourDimension), neigbourList);
+			}
+
+		});
 	}
 
 	public void addCell(Cell cell, WorldDimension dimension) {
@@ -34,6 +40,22 @@ public class World {
 		neigbours.add(WorldDimension.createSouth(dimension));
 
 		return neigbours;
+	}
+
+	private void calculateAndSetNeigbourCount(final LinkedList<WorldDimension> neigbourList, Cell cell) {
+
+		this.recursionActionMap.put(null, Command.getEmptyCommand());
+		WorldDimension firstNeigbour = neigbourList.poll();
+		this.recursionActionMap.get(firstNeigbour).run(cell, this.grid.getCell(firstNeigbour), neigbourList);
+
+	}
+
+	private void setLivingNeighbourQuantityForEachField() {
+		for (Entry<WorldDimension, Cell> gridField : this.grid.getFields()) {
+			Cell cellOfField = gridField.getValue();
+			WorldDimension fieldDimension = gridField.getKey();
+			calculateAndSetNeigbourCount(generateNeigbours(fieldDimension), cellOfField);
+		}
 	}
 
 	public void nextGeneration() {
@@ -58,58 +80,9 @@ public class World {
 
 	}
 
-	private void calculateAndSetNeigbourCount(final LinkedList<WorldDimension> neigbourList, Cell cell) {
-
-		final DefaultMap<WorldDimension, Command> recursionActionMap = new DefaultMap<WorldDimension, World.Command>(null);
-		recursionActionMap.setDefaultValue(new Command() {
-			@Override
-			public void run(Cell cell, Cell neigbourCell, WorldDimension dimension) {
-				World.this.actionMap.get(neigbourCell).run(cell, neigbourCell, null);
-				doRecursion(neigbourList, recursionActionMap, cell, neigbourCell);
-			}
-
-		});
-		recursionActionMap.put(null, Command.getEmptyCommand());
-		WorldDimension firstNeigbour = neigbourList.poll();
-
-		recursionActionMap.get(firstNeigbour).run(cell, this.grid.getCell(firstNeigbour), null);
-
-	}
-
-	private void doRecursion(final LinkedList<WorldDimension> neigbourList, final DefaultMap<WorldDimension, Command> recursionActionMap, Cell cell,
-								Cell neigbourCell) {
-
-		WorldDimension neigbourDimension = neigbourList.poll();
-		Cell realNeigbourCell = World.this.grid.getCell(neigbourDimension);
-		recursionActionMap.get(neigbourDimension).run(cell, realNeigbourCell, neigbourDimension);
-	}
-
-	private void setLivingNeighbourQuantityForEachField() {
-		for (Entry<WorldDimension, Cell> gridField : this.grid.getFields()) {
-			Cell cellOfField = gridField.getValue();
-			WorldDimension fieldDimension = gridField.getKey();
-			calculateAndSetNeigbourCount(generateNeigbours(fieldDimension), cellOfField);
-		}
-	}
-
-	static class Command {
-
-		public void run(Cell cell, Cell neigbourCell, WorldDimension dimension) {
-		};
-
-		static Command getEmptyCommand() {
-			return new Command();
-		}
-
-		static Command getIncNeigbourCountCommand() {
-			return new Command() {
-
-				@Override
-				public void run(Cell cell, Cell neigbourCell, WorldDimension dimension) {
-					cell.incNeighbourCount(neigbourCell.getAliveValue());
-				}
-			};
-		}
+	// only necessary for test
+	public boolean cellIsAliveAtPosition(WorldDimension dimension) {
+		return this.grid.getCell(dimension).isAlive();
 
 	}
 

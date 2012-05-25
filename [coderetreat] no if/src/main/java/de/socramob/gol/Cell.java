@@ -30,4 +30,10 @@ public class Cell {
 		this.neigbourCount = 0;
 	}
 
+	public static Cell getDeadCell() {
+		Cell deadCell = new Cell();
+		deadCell.die();
+		return deadCell;
+	}
+
 }

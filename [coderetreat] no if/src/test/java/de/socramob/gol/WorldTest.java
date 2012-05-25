@@ -1,6 +1,7 @@
 package de.socramob.gol;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -23,6 +24,15 @@ public class WorldTest {
 		world.addCell(new Cell(), new WorldDimension(1, 2));
 		assertEquals(2, world.getLivingCellCount());
 
+	}
+
+	@Test
+	public void testAddLivingCell_CellShouldBeAlive()
+		throws Exception {
+		World world = new World();
+		WorldDimension dimension = new WorldDimension(1, 1);
+		world.addCell(new Cell(), dimension);
+		assertTrue(world.cellIsAliveAtPosition(dimension));
 	}
 
 	// @Test
@@ -56,22 +66,31 @@ public class WorldTest {
 	// }
 
 	@Test
-	public void testGenerateNextGeneration_shouldHaveNoneAlive()
+	public void testGenerateNextGeneration_shouldDieWithLessThan2Neigbours()
 		throws Exception {
 		World world = new World();
-		Cell cell = new Cell();
-		world.addCell(cell, new WorldDimension(1, 2));
+		world.addCell(new Cell(), new WorldDimension(1, 2));
 		world.nextGeneration();
 		assertEquals(0, world.getLivingCellCount());
 	}
 
 	@Test
-	public void testGenerateNextGeneration_shouldHaveOneAlive()
+	public void testGenerateNextGeneration_shouldStayAliveWith2Neigbours()
 		throws Exception {
 		World world = new World();
-		Cell cell = new Cell();
-		world.addCell(cell, new WorldDimension(1, 1));
-		world.addCell(new Cell(), new WorldDimension(1, 2));
+		world.addCell(new Cell(), new WorldDimension(1, 1));
+		world.addCell(new Cell(), new WorldDimension(0, 2));
+		world.addCell(new Cell(), new WorldDimension(0, 0));
+		world.nextGeneration();
+		assertEquals(1, world.getLivingCellCount());
+	}
+
+	@Test
+	public void testGenerateNextGeneration_oneShouldBeRevived()
+		throws Exception {
+		World world = new World();
+		world.addCell(new Cell(), new WorldDimension(0, 2));
+		world.addCell(new Cell(), new WorldDimension(2, 2));
 		world.addCell(new Cell(), new WorldDimension(0, 0));
 		world.nextGeneration();
 		assertEquals(1, world.getLivingCellCount());
