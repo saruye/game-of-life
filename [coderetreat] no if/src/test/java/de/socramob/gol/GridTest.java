@@ -2,6 +2,7 @@ package de.socramob.gol;
 
 import static org.junit.Assert.*;
 
+import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -38,6 +39,14 @@ public class GridTest {
 
 		currentCell = grid.getCell(new WorldDimension(4, 4));
 		assertNotNull(currentCell);
+	}
+
+	@Test
+	public void testGetFieldIterator() throws Exception {
+		grid.putCellToDimension(new WorldDimension(4, 4), new Cell());
+		Iterator<Entry<WorldDimension, Cell>> gridFields = grid.getFieldIterator();
+
+		assertTrue(gridFields.hasNext());
 	}
 
 }

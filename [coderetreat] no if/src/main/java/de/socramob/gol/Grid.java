@@ -1,5 +1,6 @@
 package de.socramob.gol;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -15,6 +16,10 @@ public class Grid {
 
 	public Set<Entry<WorldDimension, Cell>> getFields() {
 		return this.grid.entrySet();
+	}
+
+	public Iterator<Entry<WorldDimension, Cell>> getFieldIterator() {
+		return this.grid.entrySet().iterator();
 	}
 
 	public Cell getCell(WorldDimension worldDimension) {

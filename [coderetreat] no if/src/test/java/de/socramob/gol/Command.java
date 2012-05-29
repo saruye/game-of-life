@@ -1,6 +1,7 @@
 package de.socramob.gol;
 
 import java.util.LinkedList;
+import java.util.Map.Entry;
 
 public class Command {
 
@@ -9,6 +10,10 @@ public class Command {
 
 	static Command getEmptyCommand() {
 		return new Command();
+	}
+
+	public void run(Entry<WorldDimension, Cell> gridField) {
+
 	}
 
 }

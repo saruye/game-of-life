@@ -3,6 +3,8 @@ package de.socramob.gol;
 import java.util.LinkedList;
 import java.util.Map.Entry;
 
+import de.socramob.gol.recursion.ListIterator;
+
 public class World {
 
 	Grid grid;
@@ -11,7 +13,8 @@ public class World {
 
 	public World() {
 		this.grid = new Grid();
-		this.recursionActionMap.setDefaultValue(new Command() {
+
+		Command command = new Command() {
 			@Override
 			public void run(Cell cell, Cell neigbourCell, final LinkedList<WorldDimension> neigbourList) {
 				cell.incNeighbourCount(neigbourCell.getAliveValue());
@@ -19,7 +22,9 @@ public class World {
 				World.this.recursionActionMap.get(neigbourDimension).run(cell, World.this.grid.getCell(neigbourDimension), neigbourList);
 			}
 
-		});
+		};
+
+		this.recursionActionMap.setDefaultValue(command);
 	}
 
 	public void addCell(Cell cell, WorldDimension dimension) {
@@ -51,27 +56,43 @@ public class World {
 	}
 
 	private void setLivingNeighbourQuantityForEachField() {
-		for (Entry<WorldDimension, Cell> gridField : this.grid.getFields()) {
-			Cell cellOfField = gridField.getValue();
-			WorldDimension fieldDimension = gridField.getKey();
-			calculateAndSetNeigbourCount(generateNeigbours(fieldDimension), cellOfField);
-		}
+
+		Command command = new Command() {
+			@Override
+			public void run(Entry<WorldDimension, Cell> gridField) {
+				Cell cellOfField = gridField.getValue();
+				WorldDimension fieldDimension = gridField.getKey();
+				calculateAndSetNeigbourCount(generateNeigbours(fieldDimension), cellOfField);
+			}
+
+		};
+
+		ListIterator listIterator = new ListIterator(command);
+		listIterator.iterate(this.grid.getFieldIterator());
 	}
 
 	public void nextGeneration() {
 
 		setLivingNeighbourQuantityForEachField();
 
-		for (Entry<WorldDimension, Cell> gridField : this.grid.getFields()) {
-			Cell cellOfField = gridField.getValue();
-			cellOfField.nextGeneration();
-		}
+		Command command = new Command() {
+			@Override
+			public void run(Entry<WorldDimension, Cell> gridField) {
+				Cell cellOfField = gridField.getValue();
+				cellOfField.nextGeneration();
+			}
+
+		};
+
+		ListIterator listIterator = new ListIterator(command);
+		listIterator.iterate(this.grid.getFieldIterator());
 
 	}
 
 	// only necessary for test
 	public int getLivingCellCount() {
 		int livingCellCount = 0;
+
 		for (Entry<WorldDimension, Cell> currentDimension : this.grid.getFields()) {
 			Cell currentCell = currentDimension.getValue();
 			livingCellCount += currentCell.getAliveValue();
