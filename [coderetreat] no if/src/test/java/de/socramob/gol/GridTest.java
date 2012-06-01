@@ -1,6 +1,8 @@
 package de.socramob.gol;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -27,7 +29,7 @@ public class GridTest {
 	public void testGetFields() throws Exception {
 		grid.putCellToDimension(new WorldDimension(4, 4), new Cell());
 		Set<Entry<WorldDimension, Cell>> gridFields = grid.getFields();
-		assertEquals(1, gridFields.size());
+		assertEquals(49, gridFields.size());
 	}
 
 	@Test
@@ -49,4 +51,16 @@ public class GridTest {
 		assertTrue(gridFields.hasNext());
 	}
 
+	@Test
+	public void testGetGridSize() throws Exception {
+		Grid newGrid = new Grid();
+		newGrid.putCellToDimension(new WorldDimension(1, 1), new Cell());
+		newGrid.putCellToDimension(new WorldDimension(2, 3), new Cell());
+		newGrid.putCellToDimension(new WorldDimension(5, 0), new Cell());
+
+		assertEquals(36, newGrid.getFieldSize());
+
+		newGrid.putCellToDimension(new WorldDimension(3, 6), new Cell());
+		assertEquals(49, newGrid.getFieldSize());
+	}
 }
