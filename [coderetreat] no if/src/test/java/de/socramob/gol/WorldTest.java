@@ -49,11 +49,7 @@ public class WorldTest {
 		world.addCell(new Cell(), new WorldDimension(2, 2));
 		world.nextGeneration();
 		assertEquals(2, world.getLivingCellCount());
-		assertTrue(world.grid.getCell(new WorldDimension(1, 1)).isAlive()); // field
-																			// 1/1
-																			// should
-																			// be
-																			// survive
+		assertTrue(world.grid.getCell(new WorldDimension(1, 1)).isAlive());
 	}
 
 	@Test
@@ -65,10 +61,10 @@ public class WorldTest {
 		world.addCell(new Cell(), new WorldDimension(3, 2));
 		world.nextGeneration();
 
+		assertEquals(3, world.getLivingCellCount());
 		assertTrue(world.grid.getCell(new WorldDimension(2, 0)).isAlive());
 		assertTrue(world.grid.getCell(new WorldDimension(2, 1)).isAlive());
 		assertTrue(world.grid.getCell(new WorldDimension(3, 1)).isAlive());
-		assertEquals(3, world.getLivingCellCount());
 	}
 
 	@Test

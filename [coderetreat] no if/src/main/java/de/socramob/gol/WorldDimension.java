@@ -7,7 +7,7 @@ public class WorldDimension
 
 	private static final long serialVersionUID = -5358293046121047701L;
 
-	WorldDimension(int width, int height) {
+	public WorldDimension(int width, int height) {
 		super(width, height);
 	}
 
@@ -58,15 +58,4 @@ public class WorldDimension
 	public static WorldDimension createWest(WorldDimension origin) {
 		return new WorldDimension(origin.stepWest(), origin.height);
 	}
-
-	// static abstract class DimensionCommand {
-	//
-	// public static void run(Cell cell, Map<WorldDimension, Cell> grid, WorldDimension currentDimension){
-	// Map<Cell, Command> actionMap = new DefaultMap<Cell, World.Command>(Command.getIncNeigbourCountCommand());
-	// actionMap.put(null, Command.getEmptyCommand());
-	//
-	// }
-	//
-	// }
-
 }

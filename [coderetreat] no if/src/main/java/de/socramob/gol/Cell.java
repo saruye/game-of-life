@@ -1,6 +1,6 @@
 package de.socramob.gol;
 
-public class Cell {
+public class Cell implements Cloneable{
 
 	private CellState state = CellState.ALIVE;
 
@@ -26,14 +26,18 @@ public class Cell {
 		this.neigbourCount += i;
 	}
 
-	public void resetNeighbourQuantity() {
-		this.neigbourCount = 0;
-	}
-
 	public static Cell getDeadCell() {
 		Cell deadCell = new Cell();
 		deadCell.die();
 		return deadCell;
 	}
+
+	public Cell clone() {
+        try {
+			return (Cell) super.clone();
+		} catch (CloneNotSupportedException e) {
+			return getDeadCell();
+		}
+}
 
 }

@@ -1,5 +1,6 @@
 package de.socramob.gol;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -89,6 +90,14 @@ public class CellTest {
 	public void testCell_GetAliveValue()
 		throws Exception {
 		assertEquals(1, this.cell.getAliveValue());
+	}
+
+	@Test
+	public void testCell_Clone() throws Exception {
+		Cell cell_one = new Cell();
+		Cell cell_two = cell_one.clone();
+
+		assertNotSame(cell_two, cell_one);
 	}
 
 }

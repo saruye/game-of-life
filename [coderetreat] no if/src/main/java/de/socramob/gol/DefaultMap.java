@@ -3,8 +3,7 @@ package de.socramob.gol;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DefaultMap<K, V>
-	extends HashMap<K, V> {
+public class DefaultMap<K, V> extends HashMap<K, V> {
 
 	private V defaultValue;
 
@@ -25,5 +24,4 @@ public class DefaultMap<K, V>
 	public void setDefaultValue(V defaultValue) {
 		this.defaultValue = defaultValue;
 	}
-
 }

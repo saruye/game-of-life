@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Iterator;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.junit.After;
@@ -28,8 +27,18 @@ public class GridTest {
 	@Test
 	public void testGetFields() throws Exception {
 		grid.putCellToDimension(new WorldDimension(4, 4), new Cell());
-		Set<Entry<WorldDimension, Cell>> gridFields = grid.getFields();
+		Set<WorldDimension> gridFields = grid.getFields();
 		assertEquals(49, gridFields.size());
+
+		grid = new Grid();
+		grid.putCellToDimension(new WorldDimension(3, 1), new Cell());
+		gridFields = grid.getFields();
+		assertEquals(36, gridFields.size());
+
+		grid = new Grid();
+		grid.putCellToDimension(new WorldDimension(2, 3), new Cell());
+		gridFields = grid.getFields();
+		assertEquals(36, gridFields.size());
 	}
 
 	@Test
@@ -46,7 +55,7 @@ public class GridTest {
 	@Test
 	public void testGetFieldIterator() throws Exception {
 		grid.putCellToDimension(new WorldDimension(4, 4), new Cell());
-		Iterator<Entry<WorldDimension, Cell>> gridFields = grid.getFieldIterator();
+		Iterator<WorldDimension> gridFields = grid.getFieldIterator();
 
 		assertTrue(gridFields.hasNext());
 	}
@@ -58,9 +67,9 @@ public class GridTest {
 		newGrid.putCellToDimension(new WorldDimension(2, 3), new Cell());
 		newGrid.putCellToDimension(new WorldDimension(5, 0), new Cell());
 
-		assertEquals(36, newGrid.getFieldSize());
+		assertEquals(64, newGrid.getFieldSize());
 
 		newGrid.putCellToDimension(new WorldDimension(3, 6), new Cell());
-		assertEquals(49, newGrid.getFieldSize());
+		assertEquals(81, newGrid.getFieldSize());
 	}
 }

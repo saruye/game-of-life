@@ -3,9 +3,7 @@ package de.socramob.gol.recursion;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
-import de.socramob.gol.Cell;
 import de.socramob.gol.Command;
 import de.socramob.gol.WorldDimension;
 
@@ -20,7 +18,7 @@ public class ListIterator {
 
 	}
 
-	public void iterate(Iterator<Entry<WorldDimension, Cell>> listIterator) {
+	public void iterate(Iterator<WorldDimension> listIterator) {
 		Recursion nextStep = this.nextIteratorStep.get(listIterator.hasNext());
 		nextStep.iterate(nextIteratorStep, listIterator);
 	}
