@@ -51,7 +51,6 @@ public class Grid {
 	}
 
 	public Iterator<WorldDimension> getFieldIterator() {
-		System.out.println(this.getFields().size());
 		return this.getFields().iterator();
 	}
 
