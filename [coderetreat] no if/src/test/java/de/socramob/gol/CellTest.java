@@ -1,8 +1,8 @@
 package de.socramob.gol;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -99,5 +99,4 @@ public class CellTest {
 
 		assertNotSame(cell_two, cell_one);
 	}
-
 }

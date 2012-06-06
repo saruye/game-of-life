@@ -64,6 +64,7 @@ public class World {
 			@Override
 			public void run(WorldDimension fieldDimension) {
 				Cell cellOfField = World.this.grid.getCell(fieldDimension).clone();
+				cellOfField.resetNeigbourCount();
 				World.this.grid.putCellToDimension(fieldDimension, cellOfField);
 				calculateAndSetNeigbourCount(generateNeigbours(fieldDimension), cellOfField);
 			}
@@ -97,6 +98,9 @@ public class World {
 
 		for (WorldDimension currentDimension : this.grid.getFields()) {
 			Cell currentCell = grid.getCell(currentDimension);
+			if (currentCell.isAlive()) {
+				System.out.println(currentDimension.width + "/" + currentDimension.height + " is alive");
+			}
 			livingCellCount += currentCell.getAliveValue();
 		}
 		return livingCellCount;
