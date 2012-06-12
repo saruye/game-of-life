@@ -86,6 +86,50 @@ public class WorldTest {
 	}
 
 	@Test
+	public void testGenerateNextGeneration_GenerationMix() throws Exception {
+		World world = new World();
+		world.addCell(new Cell(), new WorldDimension(1, 0));
+		world.addCell(new Cell(), new WorldDimension(1, 1));
+		world.addCell(new Cell(), new WorldDimension(2, 1));
+		world.addCell(new Cell(), new WorldDimension(2, 2));
+		world.nextGeneration();
+		assertEquals(6, world.getLivingCellCount());
+		assertTrue(world.grid.getCell(new WorldDimension(1, 0)).isAlive());
+		assertTrue(world.grid.getCell(new WorldDimension(1, 1)).isAlive());
+		assertTrue(world.grid.getCell(new WorldDimension(2, 1)).isAlive());
+		assertTrue(world.grid.getCell(new WorldDimension(2, 2)).isAlive());
+		assertTrue(world.grid.getCell(new WorldDimension(2, 0)).isAlive());
+		assertTrue(world.grid.getCell(new WorldDimension(1, 2)).isAlive());
+
+		world.nextGeneration();
+		assertEquals(6, world.getLivingCellCount());
+		assertTrue(world.grid.getCell(new WorldDimension(1, 0)).isAlive());
+		assertTrue(world.grid.getCell(new WorldDimension(2, 0)).isAlive());
+		assertTrue(world.grid.getCell(new WorldDimension(0, 1)).isAlive());
+		assertTrue(world.grid.getCell(new WorldDimension(3, 1)).isAlive());
+		assertTrue(world.grid.getCell(new WorldDimension(1, 2)).isAlive());
+		assertTrue(world.grid.getCell(new WorldDimension(2, 2)).isAlive());
+
+		world.nextGeneration();
+		assertEquals(6, world.getLivingCellCount());
+		assertTrue(world.grid.getCell(new WorldDimension(1, 0)).isAlive());
+		assertTrue(world.grid.getCell(new WorldDimension(2, 0)).isAlive());
+		assertTrue(world.grid.getCell(new WorldDimension(0, 1)).isAlive());
+		assertTrue(world.grid.getCell(new WorldDimension(3, 1)).isAlive());
+		assertTrue(world.grid.getCell(new WorldDimension(1, 2)).isAlive());
+		assertTrue(world.grid.getCell(new WorldDimension(2, 2)).isAlive());
+
+		world.nextGeneration();
+		assertEquals(6, world.getLivingCellCount());
+		assertTrue(world.grid.getCell(new WorldDimension(1, 0)).isAlive());
+		assertTrue(world.grid.getCell(new WorldDimension(2, 0)).isAlive());
+		assertTrue(world.grid.getCell(new WorldDimension(0, 1)).isAlive());
+		assertTrue(world.grid.getCell(new WorldDimension(3, 1)).isAlive());
+		assertTrue(world.grid.getCell(new WorldDimension(1, 2)).isAlive());
+		assertTrue(world.grid.getCell(new WorldDimension(2, 2)).isAlive());
+	}
+
+	@Test
 	public void testGenerateNextGeneration_oneShouldBeRevived() throws Exception {
 		World world = new World();
 		world.addCell(new Cell(), new WorldDimension(0, 2));
